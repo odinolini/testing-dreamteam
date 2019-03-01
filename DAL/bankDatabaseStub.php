@@ -177,49 +177,52 @@ class BankDBStub {
         $enKunde->personnummer = "12345678910";
         $toKunde->personnummer = "10123456789";
         $treKunde->personnummer = "10987654321";
-        
+
         $enKonto = new konto();
         $toKonto = new konto();
         $treKonto = new konto();
-        
+
         $enKonto->kontonummer = "99999888888";
         $enKonto->personnummer = "12345678910";
         $enKonto->transaksjoner = [];
-        
+
         $toKonto->kontonummer = "88888777777";
         $toKonto->personnummer = "10123456789";
         $toKonto->tranaksjoner = [];
-        
+
         $treKonto->kontonummer = "66666555555";
         $treKonto->personnummer = "10987654321";
         $treKonto->transaksjoner = [];
-        
+
         $transaksjon1 = new transaksjon();
         $transaksjon1->dato = '2015-03-26';
         $transaksjon1->transaksjonBelop = 134.4;
         $transaksjon1->fraTilKontonummer = "22342344556";
         $transaksjon1->melding = "Meny Holtet";
         $transaksjon1->avventer = 1;
+        $transaksjon1->txid = 1;
         $enKonto->transaksjoner[] = $transaksjon1;
-        
+
         $transaksjon2 = new transaksjon();
         $transaksjon2->dato = '2017-03-01';
         $transaksjon2->transaksjonBelop = 9000.9;
         $transaksjon2->fraTilKontonummer = "88888777777";
         $transaksjon2->melding = "Penger";
         $transaksjon2->avventer = 1;
+        $transaksjon2->txid = 2;
         $enKonto->transaksjoner[] = $transaksjon2;
-        
+
         $transaksjon3 = new transaksjon();
         $transaksjon3->dato = '2017-03-01';
         $transaksjon3->transaksjonBelop = 9000.9;
         $transaksjon3->fraTilKontonummer = "88888777777";
         $transaksjon3->melding = "Penger";
         $transaksjon3->avventer = 1;
+        $transaksjon3->avventer = 3;
         $toKonto->transaksjoner[] = $transaksjon2;
-        
+
         $alleKonti = [$enKonto, $toKonto, $treKonto];
-        
+
         $betalinger = [];
         for ($i = 0; $i < count($alleKonti); $i++) {
             if ($alleKonti[$i]->personnummer == $personnummer) {
@@ -228,8 +231,59 @@ class BankDBStub {
                 }
             }
         }
-        
+
         return $betalinger;
+    }
+
+    function utforBetaling($txid) {
+        $bank = new Bank(new BankDBStub());
+        $betalinger = $bank->hentBetalinger("12345678910");
+
+        for ($i = 0; $i < count($betalinger); $i++) {
+            if ($betalinger[$i]->txid === $txid) {
+                return "OK";
+            }
+        }
+        return "Feil";
+    }
+
+    function endreKundeInfo($kunde) {
+        if (isset($kunde->adresse) && isset($kunde->etternavn) && isset($kunde->fornavn) && isset($kunde->passord) && isset($kunde->personnummer) && isset($kunde->personnummer) && isset($kunde->postnr) && isset($kunde->poststed) && isset($kunde->telefonnr)) {
+
+            return "OK";
+        }
+        return "Feil";
+    }
+
+    function hentKundeInfo($personnummer) {
+        $enKunde = new kunde();
+        $toKunde = new kunde();
+
+        $enKunde->adresse = "Veiens vei";
+        $enKunde->etternavn = "Nordmann";
+        $enKunde->fornavn = "Ola";
+        $enKunde->passord = "hunter2";
+        $enKunde->personnummer = "12345678910";
+        $enKunde->postnr = "1234";
+        $enKunde->poststed = "Sted";
+        $enKunde->telefonnr = "12345678";
+
+        $toKunde->adresse = "By alle";
+        $toKunde->etternavn = "Nordmann";
+        $toKunde->fornavn = "Kari";
+        $toKunde->passord = "********";
+        $toKunde->personnummer = "10123456789";
+        $toKunde->postnr = "1234";
+        $toKunde->poststed = "Sted";
+        $toKunde->telefonnr = "87654321";
+        
+        if ($personnummer === "12345678910") {
+            return $enKunde;
+        } else if ($personnummer === "10123456789") {
+            return $toKunde;
+        }
+        
+        return "Feil";
     }
 
 }
