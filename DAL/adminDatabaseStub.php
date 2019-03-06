@@ -47,24 +47,24 @@ class adminBankDBStub {
     }
 
     function registerKonto($konto) {
-        
-       
+
+
         if (isset($konto->kontonummer) && isset($konto->personnummer) && isset($konto->saldo) && isset($konto->transaksjoner) && isset($konto->type) && isset($konto->valuta)) {
             return "OK";
         }
         return "Feil";
     }
-    
+
     function endreKonto($konto) {
         $alleKunder = $this->hentAlleKunder();
-        
+
         $erGyldigPersonNummer = false;
         for ($i = 0; $i < count($alleKunder); $i++) {
             if ($konto->personnummer == $alleKunder[$i]->personnummer) {
                 $erGyldigPersonNummer = true;
             }
         }
-        
+
         if (!$erGyldigPersonNummer) {
             return "Feil i personnummer";
         }
@@ -89,6 +89,19 @@ class adminBankDBStub {
     
     function slettKonto($konto) {
         
+    }
+
+    function hentAlleKonti() {
+        $konto1 = new konto();
+        $konto2 = new konto();
+        $konto3 = new konto();
+        
+        $konto1->kontonummer = "12345678910";
+        $konto2->saldo = 553.5;
+        
+        $alleKonti = [$konto1, $konto2, $konto3];
+        
+        return $alleKonti;
     }
 
 }
