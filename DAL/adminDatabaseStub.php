@@ -1,8 +1,9 @@
 <?php
+
 include_once '../Model/domeneModell.php';
 
 class adminBankDBStub {
-    
+
     function hentAlleKunder() {
         $alleKunder = array();
         $kunde1 = new kunde();
@@ -36,21 +37,38 @@ class adminBankDBStub {
         }
         return "Feil";
     }
-    
+
     function registrerKunde($kunde) {
         if (isset($kunde->adresse) && isset($kunde->etternavn) && isset($kunde->fornavn) && isset($kunde->passord) && isset($kunde->personnummer) && isset($kunde->personnummer) && isset($kunde->postnr) && isset($kunde->poststed) && isset($kunde->telefonnr)) {
 
             return "OK";
         }
-        return "Feil";        
+        return "Feil";
     }
-    
-    function registerKonto($konto) {
 
-        if ( isset($konto->kontonummer) && isset($konto->personnummer) && isset($konto->saldo) && isset($konto->transaksjoner) && isset($konto->type) && isset($konto->valuta) ) {
+    function registerKonto($konto) {
+        
+       
+        if (isset($konto->kontonummer) && isset($konto->personnummer) && isset($konto->saldo) && isset($konto->transaksjoner) && isset($konto->type) && isset($konto->valuta)) {
             return "OK";
         }
         return "Feil";
+    }
+    
+    function endreKonto($konto) {
+        $alleKunder = $this->hentAlleKunder();
+        
+        $erGyldigPersonNummer = false;
+        for ($i = 0; $i < count($alleKunder); $i++) {
+            if ($konto->personnummer == $alleKunder[$i]->personnummer) {
+                $erGyldigPersonNummer = true;
+            }
+        }
+        
+        if (!$erGyldigPersonNummer) {
+            return "Feil i personnummer";
+        }
+        return "OK";
     }
 
 }
