@@ -70,6 +70,22 @@ class adminBankDBStub {
         }
         return "OK";
     }
+    
+    function slettKunde($personnummer) {
+        
+        if (isset($personnummer)) {
+            $kunder = $this->hentAlleKunder();
+            for ($i = 0; $i < sizeof($kunder); $i++) {
+                if ($kunder[$i]->personnummer == $personnummer) {
+                    return "OK";
+                } else {
+                }
+            }
+        }
+        
+        return "Feil";
+        
+    }
 
     function hentAlleKonti() {
         $konto1 = new konto();
