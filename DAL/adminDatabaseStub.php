@@ -18,5 +18,13 @@ class adminBankDBStub {
         }
         return "Feil";        
     }
+    
+    function registerKonto($konto) {
+
+        if ( isset($konto->kontonummer) && isset($konto->personnummer) && isset($konto->saldo) && isset($konto->transaksjoner) && isset($konto->type) && isset($konto->valuta) ) {
+            return "OK";
+        }
+        return "Feil";
+    }
 
 }
