@@ -44,5 +44,21 @@ class adminBankDBStub {
         }
         return "Feil";        
     }
+    
+    function slettKunde($personnummer) {
+        
+        if (isset($personnummer)) {
+            $kunder = $this->hentAlleKunder();
+            for ($i = 0; $i < sizeof($kunder); $i++) {
+                if ($kunder[$i]->personnummer == $personnummer) {
+                    return "OK";
+                } else {
+                }
+            }
+        }
+        
+        return "Feil";
+        
+    }
 
 }
