@@ -31,6 +31,7 @@ class endreKundeInfoTest extends PHPUnit\Framework\TestCase {
     }
     
     public function testEndreKundeInfoAdmin() {
+        //Arrange
         $bank = new Admin(new adminBankDBStub());
         $kunde = new kunde();
         
