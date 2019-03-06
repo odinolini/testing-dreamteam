@@ -78,7 +78,6 @@ class adminBankDBStub {
             for ($i = 0; $i < sizeof($kunder); $i++) {
                 if ($kunder[$i]->personnummer == $personnummer) {
                     return "OK";
-                } else {
                 }
             }
         }
@@ -86,22 +85,33 @@ class adminBankDBStub {
         return "Feil";
         
     }
-    
-    function slettKonto($konto) {
-        
-    }
-
+   
     function hentAlleKonti() {
         $konto1 = new konto();
         $konto2 = new konto();
         $konto3 = new konto();
         
         $konto1->kontonummer = "12345678910";
+        $konto2->kontonummer = "65849394459";
+        $konto3->kontonummer = "49583957558";
         $konto2->saldo = 553.5;
         
         $alleKonti = [$konto1, $konto2, $konto3];
         
         return $alleKonti;
+    }
+    
+    function slettKonto($konto) {
+        if (isset($konto)) {
+            $kontoer = $this->hentAlleKonti();
+            for ($i = 0; $i < sizeof($kontoer); $i++) {
+                if ($kontoer[$i]->kontonummer == $konto->kontonummer) {
+                    return "OK";
+                }
+            }
+        }
+        
+        return "Feil i kontonummer";
     }
 
 }
