@@ -86,5 +86,9 @@ class adminBankDBStub {
         return "Feil";
         
     }
+    
+    function slettKonto($konto) {
+        
+    }
 
 }
